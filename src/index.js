@@ -1,10 +1,11 @@
 import fs from 'fs';
 import readline from 'readline';
 import UpdateFront from './shell.js';
+import getIssues from './redmine.js';
 
 let listIssues = [];
-//const path = "C:\\Users\\gabriel.oliveira\\Documents\\MERGE\\log_commits_front.txt";
-const path = "log/log_commits_front1.txt";
+const pathLogsIniciais = "C:/Users/gabriel.oliveira/Documents/MERGE1/log_commits_front.txt";
+const pathIssues = "C:/Users/gabriel.oliveira/Documents/MERGE1/issues.txt";
 async function readFileByLine(file) {
     const fileStream = fs.createReadStream(file);
     const rl = readline.createInterface({
@@ -35,19 +36,19 @@ async function tratarDuplicates(listIssues) {
     return newListIssues;
 }
 
-async function salvarIssues(newListIssues) {
-    const path = "log/issues.txt";
-
-    //caso o arquivo já exista, substitui o conteudo
-    fs.writeFileSync(path, newListIssues.join('\n'), 'utf8', function (err) {
+async function salvarIssues(newListIssues, pathIssues) {
+    fs.writeFileSync(pathIssues, newListIssues.join('\n'), 'utf8', function (err) {
         if (err) {
             return console.log(err);
         }
+
     });
 
 }
 
-//await UpdateFront();
-await readFileByLine(path);
+await UpdateFront();
+await readFileByLine(pathLogsIniciais);
 let newListIssues = await tratarDuplicates(listIssues);
-await salvarIssues(newListIssues);
+let issues = await getIssues(newListIssues);
+await salvarIssues(issues, pathIssues);
+

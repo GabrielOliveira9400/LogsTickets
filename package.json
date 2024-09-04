@@ -17,6 +17,8 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
     "shelljs": "^0.8.5"
   }
 }
